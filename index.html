@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Goa Tourism-Sun • Sand • Serenity</title>
+    <style>
+        /* ======================= Root & Reset ======================= */
+        :root {
+            --primary: #FF7F50; /* Coral - vibrant sun/sand */
+            --secondary: #20B2AA; /* Light Sea Green - serene water */
+            --dark: #36454F; /* Charcoal Gray - deep, rich for header/footer */
+            --light: #FFFFFF; /* White - clean */
+            --bg: #FDF5E6; /* Creamy White / Old Lace - soft, warm background */
+            --text-color: #333333; /* Darker grey for readability */
+            --soft-text-color: #555555; /* Softer text color for paragraphs */
+            --card-shadow: rgba(0, 0, 0, .1);
+            --radius: 10px; /* Slightly more rounded corners */
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text-color);
+            line-height: 1.7;
+            scroll-behavior: smooth;
+            font-size: clamp(17px, 1.15vw, 19px); /* Responsive base font size */
+        }
+        p { /* General paragraph styling for readability */
+            max-width: 850px; /* Max width for paragraphs to enhance readability */
+            margin-inline: auto;
+            margin-bottom: 1rem;
+            line-height: 1.85; /* Increased line-height for better readability */
+            font-size: clamp(1.05rem, 1.25vw, 1.2rem); /* Bigger paragraph font */
+            color: var(--soft-text-color); /* Softer text color */
+            letter-spacing: 0.02em; /* Subtle letter spacing */
+            transition: color 0.3s ease-out, text-shadow 0.3s ease-out; /* Animation for hover */
+        }
+        p:hover {
+            color: var(--dark); /* Slightly darker/more prominent color on hover */
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Soft, subtle text shadow on hover */
+        }
+        img { display: block; width: 100%; height: auto; }
+        a { color: var(--secondary); text-decoration: none; transition: color .2s ease; }
+        a:hover { color: var(--primary); }
+
+        /* ======================= Layout Helpers ======================= */
+        .container {
+            max-width: 1200px;
+            margin-inline: auto;
+            padding-inline: clamp(1rem, 5vw, 4rem);
+        }
+
+        /* ======================= Header & Navigation ======================= */
+        header {
+            background: linear-gradient(90deg, #2c3e50 0%, #34495e 100%);
+            color: var(--light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border-bottom: 4px solid var(--primary);
+            padding-top: 1rem;
+            transition: transform 0.3s ease-out;
+        }
+
+        .header--hidden {
+            transform: translateY(-100%);
+        }
+
+        .header__logo {
+            font-family: 'Georgia', serif;
+            font-weight: 700;
+            font-size: clamp(3rem, 6vw, 4rem);
+            color: var(--primary);
+            letter-spacing: 0.5px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            padding: 0.5rem 0;
+            margin-bottom: 0.5rem;
+            cursor: default;
+            transition: all 0.3s ease-in-out;
+            display: block;
+        }
+        .header__logo:hover {
+            transform: scale(1.05);
+            color: var(--light);
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
+            letter-spacing: 1.5px;
+        }
+
+        .nav__bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 1rem 0;
+        }
+        .nav__toggle {
+            background: transparent;
+            border: none;
+            font-size: clamp(2rem, 4.5vw, 2.5rem);
+            color: var(--primary);
+            cursor: pointer;
+            display: none;
+            padding: 0.3rem;
+            border-radius: 6px;
+            transition: background .3s ease, color .3s ease;
+        }
+        .nav__toggle:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--light);
+        }
+
+        .nav__menu {
+            list-style: none;
+            display: flex;
+            gap: clamp(1rem, 3vw, 2.5rem);
+            transition: max-height .4s ease-out, opacity .4s ease-out;
+            opacity: 1;
+            flex-grow: 1;
+            justify-content: center;
+        }
+        .nav__link {
+            padding: clamp(0.8rem, 2vw, 1rem) clamp(1rem, 3vw, 1.5rem);
+            border-radius: 10px;
+            display: block;
+            font-weight: 600;
+            color: var(--light);
+            font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background .3s ease, color .3s ease, box-shadow .3s ease, transform .2s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            white-space: nowrap;
+        }
+        .nav__link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: var(--primary);
+            transform: scaleX(0);
+            transform-origin: bottom center;
+            transition: transform 0.4s ease-out;
+            z-index: -1;
+        }
+        .nav__link:hover::before, .nav__link.active::before {
+            transform: scaleX(1);
+            transform-origin: bottom center;
+        }
+        .nav__link:hover, .nav__link.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--primary);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        .nav__link.active {
+            background: rgba(255, 255, 255, 0.25);
+            font-weight: 700;
+        }
+
+        /* Mobile nav specific styles */
+        @media (max-width: 768px) {
+            .nav__bar {
+                justify-content: space-between;
+                padding-inline: clamp(1rem, 5vw, 1.5rem);
+            }
+            .nav__toggle { display: block; }
+            .nav__menu {
+                flex-direction: column;
+                width: 100%;
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                background: var(--dark);
+                padding: 0 1.5rem;
+                box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.2);
+                justify-content: flex-start;
+                align-items: flex-start;
+            }
+            .nav__menu.open {
+                max-height: 500px;
+                opacity: 1;
+                padding-bottom: 1rem;
+            }
+            .nav__menu .nav__link {
+                padding: 1.2rem 1.5rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 0;
+                width: 100%;
+                text-align: left;
+            }
+            .nav__menu .nav__link:last-child {
+                border-bottom: none;
+            }
+            .header__logo {
+                font-size: clamp(2rem, 5vw, 2.5rem);
+            }
+        }
+
+        /* ======================= Hero ======================= */
+        .hero {
+            width: 100%;
+            height: 70vh;
+            min-height: 300px;
+            background: url('https://images.unsplash.com/photo-1642516864726-a243f416fc00?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light);
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+
+        .hero__title {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 800;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            z-index: 2;
+            position: relative;
+            padding: 0 1rem;
+        }
+
+        /* ======================= Sections & Typography (Soft Box Effect) ======================= */
+        section {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity .7s ease-out, transform .7s ease-out;
+            padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1rem, 3vw, 2rem);
+            background-color: var(--light);
+            border-radius: var(--radius);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            margin-top: clamp(2rem, 5vw, 3.5rem);
+            border-top: 5px solid var(--secondary);
+            width: calc(100% - (2 * var(--container-horizontal-padding)));
+            margin-inline: auto;
+            box-sizing: border-box;
+        }
+
+        body {
+            --container-horizontal-padding: clamp(1rem, 5vw, 4rem);
+        }
+
+        section.visible { opacity: 1; transform: none; }
+        main > section:first-of-type {
+            margin-top: clamp(2rem, 5vw, 3.5rem);
+        }
+        h2 { font-size: clamp(1.8rem, 4vw, 2.2rem); color: var(--dark); margin-bottom: 1.5rem; text-align: center; position: relative; }
+        h2::after { content: ''; display: block; width: 60px; height: 4px; background: var(--primary); margin: 0.8rem auto 0; border-radius: 2px; }
+        h3 { margin-top: clamp(1.5rem, 3vw, 2rem); margin-bottom: clamp(0.5rem, 1.5vw, 0.8rem); color: var(--dark); font-size: clamp(1.2rem, 2vw, 1.4rem); }
+
+        /* ======================= Grid & Cards ======================= */
+        .grid {
+            display: grid;
+            gap: clamp(1rem, 2.5vw, 2rem);
+            grid-template-columns: repeat(auto-fit, minmax(clamp(250px, 70vw, 320px), 1fr));
+            justify-content: center;
+        }
+        .card {
+            background: var(--light);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 6px 16px var(--card-shadow);
+            transition: transform .3s ease, box-shadow .3s ease;
+        }
+        .card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 10px 25px rgba(0, 0, 0, .15); }
+        .card img { height: clamp(150px, 30vw, 200px); object-fit: cover; }
+        .card h3 { padding: clamp(1rem, 2vw, 1.2rem); font-size: clamp(1.1rem, 1.8vw, 1.25rem); font-weight: 700; color: var(--dark); }
+
+        /* Cuisine dish cards */
+        .dish-card { position: relative; border-radius: var(--radius); overflow: hidden; box-shadow: 0 6px 15px var(--card-shadow); transition: transform .3s ease; }
+        .dish-card:hover { transform: scale(1.05); }
+        .dish-card figcaption { padding: clamp(1rem, 2.5vw, 1.5rem); font-size: clamp(1rem, 1.6vw, 1.1rem); }
+
+        /* Timeline */
+        .timeline { position: relative; border-left: 4px solid var(--primary); padding-left: clamp(1.5rem, 4vw, 2rem); margin-left: clamp(0.5rem, 2vw, 1rem); }
+        .timeline-item { margin-bottom: clamp(1rem, 2.5vw, 2rem); padding-bottom: 0.5rem; position: relative; }
+        .timeline-item::before { left: -12px; top: .4rem; width: 18px; height: 18px; }
+        .timeline-item strong { font-size: clamp(1rem, 1.7vw, 1.1rem); }
+
+        /* Gallery */
+        .gallery-grid {
+            display: grid;
+            gap: clamp(0.5rem, 1.5vw, 1rem);
+            grid-template-columns: repeat(auto-fit, minmax(clamp(120px, 25vw, 180px), 1fr));
+            perspective: 1000px;
+        }
+        .gallery-grid a { border-radius: var(--radius); overflow: hidden; transition: transform .3s ease-out, box-shadow .3s ease-out; }
+        .gallery-grid a:hover { transform: rotateY(10deg) rotateX(-5deg) scale(1.08); box-shadow: 0 8px 25px rgba(0, 0, 0, .25); }
+
+        /* Lightbox modal */
+        .lightbox { position: fixed; inset: 0; background: rgba(0, 0, 0, .95); display: flex; align-items: center; justify-content: center; visibility: hidden; opacity: 0; transition: opacity .4s ease; z-index: 1002; }
+        .lightbox.open { visibility: visible; opacity: 1; }
+        .lightbox img { max-width: 95%; max-height: 95%; border-radius: var(--radius); box-shadow: 0 0 30px rgba(0, 0, 0, .5); }
+
+        /* Map Section specific styles */
+        .map-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio (height / width * 100%) */
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--radius);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+            border: 1px solid #ddd; /* Subtle border for the map iframe itself */
+        }
+        .map-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0; /* Remove default iframe border */
+            border-radius: var(--radius);
+        }
+
+        /* Chart container */
+        .chart-container { height: clamp(250px, 50vw, 350px); padding: clamp(1rem, 2vw, 1.5rem); }
+
+        /* FAQ */
+        #faq details { margin-bottom: clamp(0.8rem, 2vw, 1rem); }
+        #faq summary { padding: clamp(0.8rem, 2vw, 1rem) clamp(1rem, 2.5vw, 1.2rem); }
+        #faq details p { padding: clamp(0.8rem, 2vw, 1rem) clamp(1rem, 2.5vw, 1.2rem); }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: var(--light); text-align: center; padding: clamp(1.5rem, 4vw, 2rem); margin-top: clamp(2.5rem, 7vw, 4rem); font-size: clamp(0.85rem, 1.2vw, 0.95rem);
+        }
+
+        /* Fixed sound button */
+        #soundBtn {
+            bottom: clamp(1rem, 3vw, 1.5rem); right: clamp(1rem, 3vw, 1.5rem);
+            width: clamp(50px, 12vw, 70px); height: clamp(50px, 12vw, 70px);
+            font-size: clamp(0.7rem, 1.1vw, 0.9rem);
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <header id="mainHeader">
+        <div class="header__logo container">Goa Tourism</div>
+        <nav class="nav__bar container" aria-label="Primary">
+            <button class="nav__toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+            <ul class="nav__menu" id="navMenu">
+                <li><a href="#home" class="nav__link active">Home</a></li>
+                <li><a href="#discover" class="nav__link">Discover</a></li>
+                <li><a href="#attractions" class="nav__link">Attractions</a></li>
+                <li><a href="#map" class="nav__link">Map</a></li>
+                <li><a href="#cuisine" class="nav__link">Cuisine</a></li>
+                <li><a href="#stay" class="nav__link">Stay</a></li>
+                <li><a href="#gallery" class="nav__link">Gallery</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="home">
+        <div class="hero" role="img" aria-label="Palolem Beach in Goa with clear water and palm trees">
+            <h1 class="hero__title">Sun • Sand • Serenity</h1>
+        </div>
+
+        <section id="discover">
+            <h2>Discover Goa</h2>
+            <p>Goa, India's smallest state, is a vibrant tapestry of sun-kissed beaches, rich cultural heritage, and lush natural landscapes. More than just a party destination, it's a place where ancient traditions blend seamlessly with modern life, offering diverse experiences for every traveler. From the bustling markets and lively nightlife of the north to the serene, secluded beaches and tranquil villages of the south, Goa promises a journey of discovery. Its unique charm lies in its harmonious blend of Indian and Portuguese influences, reflected in its architecture, cuisine, and way of life. Prepare to explore hidden gems, indulge in thrilling adventures, or simply unwind and soak in the peaceful ambiance.</p>
+            <div class="grid">
+                <div class="card"><img src="https://www.tgfdreamguesthouse.com/img/water-sports.jpg" alt="Beach & water sports"><h3>Beaches & Water Sports</h3></div>
+                <div class="card"><img src="https://media.istockphoto.com/id/108348556/photo/hindu-temple-in-goa.jpg?s=612x612&w=0&k=20&c=1mTKSxLwskoW_AM_UTf-_MPocnJGuGfdJsMwVT_rB7Q=" alt="Heritage and culture"><h3>Heritage & Culture</h3></div>
+                <div class="card"><img src="https://images.prismic.io/indiahike/8c493cfe-3526-45ee-ba8c-f4b16d2e1c2e_Goa+Netravali+Forest+Trek_Trekking+through+heart+of+Netravali+forest_Suhas+Saya_Banner+Image.jpg?auto=compress,format&rect=0,200,1600,800&w=1200&h=600" alt="Adventure and treks"><h3>Adventure & Treks</h3></div>
+            </div>
+        </section>
+
+        <section id="attractions">
+            <h2>Top Attractions</h2>
+            <p>Goa boasts a plethora of attractions that cater to every interest, from historical marvels to breathtaking natural wonders. Each site offers a unique glimpse into the state's diverse character and rich history. Whether you're seeking vibrant beach scenes, architectural grandeur, or serene natural escapes, Goa's top attractions are sure to leave a lasting impression on your journey. Explore the iconic landmarks that define Goa's appeal and create unforgettable memories.</p>
+            <div class="grid">
+                <div class="card"><img src="https://www.shutterstock.com/image-photo/morjim-beach-yellow-sand-blue-600nw-509107108.jpg" alt="Ashwem Beach"><h3>Ashwem Beach</h3></div>
+                <div class="card"><img src="https://www.shutterstock.com/shutterstock/videos/3464260359/thumb/12.jpg?ip=x480" alt="Reis Magos"><h3>Reis Magos</h3></div>
+                <div class="card"><img src="https://media.istockphoto.com/id/1215072617/photo/basilica-de-bom-jesus-old-goa-india.jpg?s=612x612&w=0&k=20&c=PRdLWUCVscFY1PEnNGDuk2ebaCcuma6EQn5cT92hsdQ=" alt="Bom Jesus basilica"><h3>Basilica of Bom Jesus</h3></div>
+                <div class="card"><img src="https://i.pinimg.com/736x/cb/b0/93/cbb0932c7e9829997c2ce238b66305cf.jpg" alt="Dudhsagar falls"><h3>Dudhsagar Falls</h3></div>
+            </div>
+        </section>
+
+        <section id="map">
+            <h2>Explore Goa on the Map</h2>
+            <p>Visualize your Goan adventure! This interactive map highlights the geographical spread of Goa's major tourist attractions, from the bustling northern beaches to the serene southern coastline, and inland historical sites. Use it to plan your routes, discover nearby points of interest, and get a better sense of distances between the places you wish to visit. Simply zoom in or out, and drag to navigate the diverse landscape of Goa.</p>
+            <div class="map-container">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d123282.88081699564!2d73.84061448000572!3d15.350849080350714!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbfba152643a299%3A0xc3f6087b7a10787e!2sGoa!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title="Map of Goa, India, showing major tourist areas"
+                ></iframe>
+            </div>
+        </section>
+
+        <section id="cuisine">
+            <h2>Flavourful Cuisine</h2>
+            <p>Goan cuisine is a delicious melting pot of Konkan, Portuguese, and Indian flavors, renowned for its fiery spices, fresh seafood, and generous use of coconut. Every dish tells a story of the region's diverse history and abundant natural resources. Beyond just curries, explore the unique blend of sweet and savory, and the distinct taste of Feni, a local cashew or coconut spirit. Dining in Goa is an immersive cultural experience, reflecting centuries of trade and tradition, inviting you to savor every bite.</p>
+            <div class="grid">
+                <figure class="dish-card"><img src="https://tse1.mm.bing.net/th/id/OIP.vK06Tsdio_RzfO4uJ7kPzgHaFE?pid=Api&P=0&h=180" alt="Goan fish curry"><figcaption>Goan Fish Curry</figcaption></figure>
+                <figure class="dish-card"><img src="https://www.shemins.com/wp-content/uploads/2020/09/Shemins-Goan-Pork-Curry.jpg" alt="Pork vindaloo"><figcaption>Pork Vindaloo</figcaption></figure>
+                <figure class="dish-card"><img src="https://tse3.mm.bing.net/th/id/OIP.PtmI63FeYabvvQ1MJVjLzwHaE8?pid=Api&P=0&h=180" alt="Bebinca dessert"><figcaption>Bebinca Dessert</figcaption></figure>
+                <figure class="dish-card"><img src="https://tse2.mm.bing.net/th/id/OIP.F9pSNkEI1jJWJAXiNEjm9gHaE8?pid=Api&P=0&h=180" alt="Prawn xacuti"><figcaption>Prawn Xacuti</figcaption></figure>
+            </div>
+        </section>
+
+        <section id="stay">
+            <h2>Stay & Transport</h2>
+            <p>Goa offers an extensive range of accommodation options to suit every preference and budget, from luxurious five-star resorts nestled along pristine beaches to charming boutique guesthouses in tranquil villages, and budget-friendly hostels for backpackers. Many options also include eco-friendly stays and serene wellness retreats. Getting around Goa is equally convenient. While popular tourist areas are well-connected by local buses and app-based taxis (like GoaMiles), renting scooters or motorbikes provides the ultimate freedom to explore the scenic coastal roads and hidden inland treasures at your own pace. For river crossings, local ferries offer a charming and authentic experience.</p>
+            <h3>Accommodation</h3>
+            <div class="grid">
+                <div class="card"><img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/1d/96/92/taj-hotel-convention.jpg?w=1200&h=-1&s=1" alt="Beachside resort"><h3>Beachside Resorts</h3></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=800&q=80" alt="Homestay"><h3>Boutique Homestays</h3></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80" alt="Heritage hotel"><h3>Heritage Hotels</h3></div>
+                <div class="card"><img src="https://images.travelandleisureasia.com/wp-content/uploads/sites/3/2022/12/29170113/untitled-design-95-1.jpeg" alt="Villa"><h3>Airbnb Villas</h3></div>
+            </div>
+            <h3 style="margin-top: 3rem;">Transport Guide</h3>
+            <ul style="list-style: disc; margin-left: 2rem; font-size: 1.05rem; max-width: 800px; margin-inline: auto;">
+                <li>**Rent scooters & motorbikes:** A popular and flexible way to explore, but always wear a helmet and ensure you have an international driving permit if a foreign national.</li>
+                <li>**App‑based taxis (GoaMiles) and licensed cabs:** Readily available in tourist hubs, offering convenience. Agree on fares beforehand or use metered services.</li>
+                <li>**Local buses:** An economical way to travel between major towns and villages, providing a glimpse into local life. Routes can be intricate, so ask for directions.</li>
+                <li>**Ferries:** Used for crossing rivers like Mandovi & Chapora, a charming and practical mode of transport, especially for reaching islands like Divar and Chorao.</li>
+            </ul>
+        </section>
+
+        <section id="events">
+            <h2>What's Happening - Latest Goa Tourism News</h2>
+            <p>Stay updated with the latest developments and initiatives in Goa's dynamic tourism sector. From new policy implementations to significant growth milestones and upcoming events, these updates reflect Goa's ongoing efforts to enhance visitor experience and ensure sustainable growth. Get the most recent insights into what's shaping your next Goan adventure.</p>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <strong>July 2025: Tourism Wardens to Combat Touts</strong> – The tourism department has initiated recruitment for tourist wardens and taluka supervisors. Their primary role will be to crack down on touts and ensure compliance with the Goa Tourist Places (Protection and Maintenance) Act, aiming for a more peaceful experience for visitors.
+                    (<a href="https://timesofindia.indiatimes.com/city/goa/tourism-wardens-to-rein-in-touts/articleshow/122589623.cms" target="_blank" rel="noopener noreferrer">Source: Times of India</a>)
+                </div>
+                <div class="timeline-item">
+                    <strong>July 2025: Govt Directs Hotels on Child & Women Safety</strong> – A stern directive has been issued to all hotels, guesthouses, and homestay operators to take immediate measures to protect vulnerable children and provide a safe working environment for women, emphasizing strict compliance with relevant acts.
+                    (<a href="https://timesofindia.indiatimes.com/city/goa/ensure-women-kids-are-safe-govt-to-hotels/articleshow/122589646.cms" target="_blank" rel="noopener noreferrer">Source: Times of India</a>)
+                </div>
+                <div class="timeline-item">
+                    <strong>July 2025: Policy Tweaks to Stimulate Tourism Growth</strong> – Chief Minister Pramod Sawant met with tourism stakeholders, promising policy amendments and tweaks to simplify business operations for the hospitality sector, including excise permit norms and single-window clearance for MICE tourism. Efforts are also being made to improve Goa's image.
+                    (<a href="https://timesofindia.indiatimes.com/city/goa/will-tweak-policies-to-stimulate-tourism-growth-all-depts-to-pitch-in-goa-cm/articleshow/122372512.cms" target="_blank" rel="noopener noreferrer">Source: Times of India</a>)
+                </div>
+                <div class="timeline-item">
+                    <strong>July 2025: White-Water Rafting Season Commences</strong> – White-water rafting on the Mhadei River in Ustem village has officially begun, offering grade II to III+ rapids. This initiative by GTDC aims to boost monsoon tourism and promote "Goa Beyond Beaches" experiences.
+                    (<a href="https://timesofindia.indiatimes.com/city/goa/footfall-in-rains-govt-starts-white-water-rafting-at-valpoi/articleshow/122372548.cms" target="_blank" rel="noopener noreferrer">Source: Times of India</a>)
+                </div>
+                <div class="timeline-item">
+                    <strong>July 2025: Goa Pushes for Open Skies Policy</strong> – Goa is urging the central government to liberalize airline agreements and consider an open skies policy for tourism-dependent states. The goal is to increase direct international connectivity, particularly to European and UK markets, and establish an integrated air-sea tourism hub.
+                    (<a href="https://travel.economictimes.indiatimes.com/news/destination/states/goa-pushes-for-open-skies-to-revitalize-tourism-industry/122429608" target="_blank" rel="noopener noreferrer">Source: ET TravelWorld</a>, <a href="https://www.traveltrendstoday.in/goa-unveils-strategic-aviation-tourism-vision-at-western-region-civil-aviation-conference" target="_blank" rel="noopener noreferrer">Travel Trends Today</a>)
+                </div>
+                <div class="timeline-item">
+                    <strong>Provisional 2024 Data: Robust 21% Tourism Growth</strong> – Provisional figures for 2024 indicate a strong 21% growth in Goa's tourism, with domestic visitors increasing by 22% and international by 3%. The state saw record daily flights in December 2024, reinforcing its position as a preferred destination despite challenges like overtourism.
+                    (<a href="https://goa-tourism.com/news/goa-records-robust-21-percent-growth-in-tourism-sets-new-milestones-in-2024/" target="_blank" rel="noopener noreferrer">Source: Goa Tourism Official Site</a>)
+                </div>
+            </div>
+        </section>
+
+        <section id="stats">
+            <h2>Tourist Footfall & Statistics</h2>
+            <p>Understanding the flow of visitors helps in appreciating Goa's popularity as a tourist destination. The data below illustrates the trends in both international and domestic tourist arrivals over recent years, highlighting periods of growth, fluctuations, and recovery. These statistics underscore the dynamic nature of Goa's tourism sector and its consistent appeal to travelers from across the globe and within India. The numbers represent millions of visitors, showcasing the sheer volume of people who choose Goa for their holidays.</p>
+            <div class="chart-container"><canvas id="visitorsChart" aria-label="Visitor statistics chart"></canvas></div>
+        </section>
+
+        <section id="gallery">
+            <h2>Photo Gallery</h2>
+            <p>Immerse yourself in the breathtaking beauty of Goa through this curated photo gallery. Each image captures a moment of its diverse charm, from the golden hues of its sunsets and pristine beaches to the architectural grandeur of its ancient churches and vibrant cultural celebrations. This visual journey aims to transport you to the heart of Goa, showcasing its natural splendor, lively festivals, and serene landscapes. Click on any image to view it in full detail and let the vibrant scenes inspire your next visit.</p>
+            <div class="gallery-grid enhanced-gallery">
+                <a href="https://t3.ftcdn.net/jpg/02/47/61/02/360_F_247610284_9Px0y8LhzPMqqrGJ3xdaXMPgv5kU5EK4.jpg"><img src="https://t3.ftcdn.net/jpg/02/47/61/02/360_F_247610284_9Px0y8LhzPMqqrGJ3xdaXMPgv5kU5EK4.jpg" alt="Sunset over a Goan beach"></a>
+                <a href="https://www.travelsiteindia.com/blog/wp-content/uploads/2017/08/goa-in-november.jpg"><img src="https://www.travelsiteindia.com/blog/wp-content/uploads/2017/08/goa-in-november.jpg" alt="Lush green landscape in Goa"></a>
+                <a href="https://www.tourmyindia.com/socialimg/basilica-of-bom-jesus-goa.jpg"><img src="https://www.tourmyindia.com/socialimg/basilica-of-bom-jesus-goa.jpg" alt="Basilica of Bom Jesus, Old Goa"></a>
+                <a href="https://www.fabhotels.com/blog/wp-content/uploads/2019/06/Aguada-Fort_600.jpg"><img src="https://www.fabhotels.com/blog/wp-content/uploads/2019/06/Aguada-Fort_600.jpg" alt="Historic Aguada Fort"></a>
+                <a href="https://www.indianholiday.com/photo-gallery/goa/fairs-and-festivals-in-goa/shigmotsav-festival/5-2660.jpg"><img src="https://i.pinimg.com/564x/c7/cb/7c/c7cb7c0d649af238ba76b9bd898d5ba9.jpg" alt="Vibrant Shigmo Festival parade"></a>
+                <a href="https://static.mygoldengoa.com/uploads/2016/07/shivling-waterfall-valpoi.jpg"><img src="https://static.mygoldengoa.com/uploads/2016/07/shivling-waterfall-valpoi.jpg" alt="Serene waterfall in Goan countryside"></a>
+            </div>
+        </section>
+
+        <div class="lightbox" id="lightbox" role="dialog" aria-label="Image preview"><img src="" alt="Expanded gallery image"></div>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions</h2>
+            <p>Planning a trip to Goa? Here are some of the most common questions travelers ask, along with helpful answers to ensure your visit is smooth and enjoyable. From optimal travel times to safety tips and local regulations, these FAQs cover essential information to help you prepare for an unforgettable Goan adventure.</p>
+            <details><summary>When is the best time to visit?</summary><p>The ideal time to visit Goa is between **October and March**. During these months, the weather is pleasantly cool and dry, making it perfect for beach activities, sightseeing, and enjoying the vibrant festivals. The seas are calm, and the overall atmosphere is lively with many events and shacks open.</p></details>
+            <details><summary>Is Goa safe for solo travellers?</summary><p>Yes, Goa is generally considered safe for solo travelers, including women, but like any tourist destination, **exercising normal precautions is advisable**. Be aware of your surroundings, especially at night, and avoid isolated areas. Respect local customs and dress modestly when visiting religious sites. Use licensed taxis or reputable app-based services like GoaMiles for transport.</p></details>
+            <details><summary>Do I need an international driving permit?</summary><p>Yes, **foreign nationals require an International Driving Permit (IDP)** to legally rent and drive two‑wheelers (scooters/motorbikes) or cars in Goa. Your domestic driving license alone may not be sufficient. It's crucial to carry your IDP along with your original national driving license to avoid any legal issues or penalties during your travels.</p></details>
+        </section>
+    </main>
+
+    <footer>© 2025 Goa Tourism. All rights reserved.</footer>
+
+    <button id="soundBtn">Sound<br>On</button>
+
+    <script>
+        /* =============================================================
+            Navbar Retraction Animation
+        ============================================================= */
+        (() => {
+            const header = document.getElementById('mainHeader');
+            let lastScrollY = window.scrollY;
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > header.offsetHeight && window.scrollY > lastScrollY) {
+                    header.classList.add('header--hidden');
+                } else if (window.scrollY < lastScrollY) {
+                    header.classList.remove('header--hidden');
+                }
+                lastScrollY = window.scrollY;
+            });
+        })();
+
+
+        /* =============================================================
+            Mobile Navigation Toggle
+        ============================================================= */
+        (() => {
+            const toggle = document.querySelector('.nav__toggle');
+            const menu = document.getElementById('navMenu');
+            toggle.addEventListener('click', () => {
+                const expanded = toggle.getAttribute('aria-expanded') === 'true' || false;
+                toggle.setAttribute('aria-expanded', !expanded);
+                menu.classList.toggle('open');
+            });
+        })();
+
+        /* =============================================================
+            Intersection Observer – reveal sections & nav state
+        ============================================================= */
+        (() => {
+            const sections = document.querySelectorAll('main section');
+            const navLinks = document.querySelectorAll('.nav__link');
+
+            const revealObs = new IntersectionObserver(entries => {
+                entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+            }, { threshold: 0.1 });
+            sections.forEach(sec => revealObs.observe(sec));
+
+            const navObs = new IntersectionObserver(entries => {
+                entries.forEach(e => {
+                    if (e.isIntersecting) {
+                        navLinks.forEach(l => l.classList.remove('active'));
+                        const sectionId = e.target.id;
+                        const activeLink = document.querySelector(`.nav__link[href="#${sectionId}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: '-50% 0px -50% 0px', threshold: 0.1 });
+            sections.forEach(sec => navObs.observe(sec));
+        })();
+
+        /* =============================================================
+            Chart.js – Visitors Statistics (Bar Graph)
+        ============================================================= */
+        (() => {
+            const ctx = document.getElementById('visitorsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar', /* Changed to 'bar' graph */
+                data: {
+                    labels: ['2019', '2020', '2021', '2022', '2023', '2024'],
+                    datasets: [
+                        {
+                            label: 'International Visitors (M)',
+                            data: [0.9, 0.3, 0.4, 0.8, 1.1, 1.4],
+                            backgroundColor: 'rgba(255, 127, 80, 0.7)', /* Primary color with transparency */
+                            borderColor: '#FF7F50',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Domestic Visitors (M)',
+                            data: [2.6, 1.0, 1.5, 2.3, 2.8, 3.2],
+                            backgroundColor: 'rgba(32, 178, 170, 0.7)', /* Secondary color with transparency */
+                            borderColor: '#20B2AA',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, /* Allow chart to adapt to container height */
+                    interaction: { mode: 'index', intersect: false },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: v => v + 'M'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false /* Hide x-axis grid lines for cleaner look */
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        })();
+
+        /* =============================================================
+            Lightbox – Gallery modal
+        ============================================================= */
+        (() => {
+            const lightbox = document.getElementById('lightbox');
+            const imgEl = lightbox.querySelector('img');
+            document.querySelectorAll('.enhanced-gallery a').forEach(link => {
+                link.addEventListener('click', e => {
+                    e.preventDefault();
+                    imgEl.src = link.href;
+                    imgEl.alt = link.querySelector('img').alt;
+                    lightbox.classList.add('open');
+                });
+            });
+            lightbox.addEventListener('click', () => lightbox.classList.remove('open'));
+        })();
+
+        /* =============================================================
+            Sound Button – Web Audio with LocalStorage
+        ============================================================= */
+        (() => {
+            const btn = document.getElementById('soundBtn'), KEY = 'goa_audio';
+            let ctx, noise, gain;
+            function createNoise() {
+                const buffer = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate), data = buffer.getChannelData(0);
+                for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+                noise = ctx.createBufferSource(); noise.buffer = buffer; noise.loop = true;
+                const filter = ctx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 800;
+                gain = ctx.createGain(); gain.gain.value = 0.12;
+                noise.connect(filter).connect(gain).connect(ctx.destination); noise.start();
+            }
+            function init() { ctx = new (window.AudioContext || window.webkitAudioContext)(); createNoise(); }
+            function toggle(force) {
+                if (!ctx) init();
+                const enable = force !== undefined ? force : ctx.state !== 'running';
+                if (enable) { ctx.resume(); btn.classList.add('enabled'); btn.innerHTML = 'Sound<br>Off'; localStorage.setItem(KEY, 'on'); }
+                else { ctx.suspend(); btn.classList.remove('enabled'); btn.innerHTML = 'Sound<br>On'; localStorage.setItem(KEY, 'off'); }
+            }
+            btn.addEventListener('click', () => toggle());
+            if (localStorage.getItem(KEY) === 'on') toggle(true);
+        })();
+    </script>
+</body>
+</html>
